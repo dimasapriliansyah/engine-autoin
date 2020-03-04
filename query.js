@@ -18,7 +18,7 @@ const findAgent = `SELECT
                       b.isLogin
                     FROM work_order a 
                       LEFT JOIN user  b ON (a.agentUsername=b.username)
-                    WHERE isLogin = 1
+                    WHERE isAux = 0 AND  (a.\`limit\` - a.slot ) > 0
                     ORDER BY 
                       lastDist ASC,
                       remain DESC
@@ -27,12 +27,9 @@ const findAgent = `SELECT
 const updateWorkOrder = () => {
   const query = ` UPDATE work_order
                   SET 
-                    agentUsername = ?,
-                    channelId = ?,
                     \`limit\` = ?,
                     slot = ?,
-                    lastDist = ?,
-                    updaterUsername = ? 
+                    lastDist = ?
                   WHERE
                     agentUsername = ?
                     AND
